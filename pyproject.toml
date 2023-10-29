@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "pygitnotes"
+version = "0.1.0"
+description = "The AI generated smart commit and body messages for git based projects"
+authors = ["Aryan Gupta <guptaaryan16@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+click = "^8.1.7"
+openai = "^0.28.1"
+importlib = "^1.0.4"
+gitpython = "^3.1.40"
+
+[tool.poetry.scripts]
+pygit = "pygitnotes.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,19 +1,22 @@
 [tool.poetry]
-name = "pygitnotes"
+name = "pygitai"
 version = "0.1.0"
-description = "The AI generated smart commit and body messages for git based projects"
+description = "The AI-LLM integration for git based projects"
 authors = ["Aryan Gupta <guptaaryan16@gmail.com>"]
 readme = "README.md"
+license='Apache License, Version 2.0'
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.9"
 click = "^8.1.7"
 openai = "^0.28.1"
 importlib = "^1.0.4"
 gitpython = "^3.1.40"
+setuptools = "^69.0.2"
+transformers = "^4.35.2"
 
 [tool.poetry.scripts]
-pygit = "pygitnotes.cli:main"
+pygit = "pygitai.cli:main"
 
 [build-system]
 requires = ["poetry-core"]

@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    pygitai.cli
+   pygitai.git
    pygitai.models
 
 Submodules
@@ -37,29 +38,6 @@ pygitai.hooks module
    :undoc-members:
    :show-inheritance:
 
-pygitai.note module
--------------------
-
-.. automodule:: pygitai.note
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-pygitai.notedir module
-----------------------
-
-.. automodule:: pygitai.notedir
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-pygitai.utils module
---------------------
-
-.. automodule:: pygitai.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Module contents
 ---------------

@@ -1,4 +1,4 @@
-Copyright 2023 Aryan Gupta
+Copyright 2024 Aryan Gupta
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pygitai"
 version = "0.1.0"
-description = "The AI-LLM integration for git based projects"
+description = "The git-LLM integration for programming projects"
 authors = ["Aryan Gupta <guptaaryan16@gmail.com>"]
 readme = "README.md"
 license='Apache License, Version 2.0'

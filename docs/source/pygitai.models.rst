@@ -4,10 +4,18 @@ pygitai.models package
 Submodules
 ----------
 
-pygitai.models.gpt module
--------------------------
+pygitai.models.openai module
+----------------------------
 
-.. automodule:: pygitai.models.gpt
+.. automodule:: pygitai.models.openai
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pygitai.models.huggingface module
+----------------------------
+
+.. automodule:: pygitai.models.huggingface
    :members:
    :undoc-members:
    :show-inheritance:

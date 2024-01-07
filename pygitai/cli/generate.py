@@ -18,7 +18,7 @@ from typing import Any
     default="main",
     help="default reference branch to generate commit",
 )
-@click.option("--PR-authors", help="list PR author names to add in the message")
+@click.option("--PR-authors", type=list[str], help="list PR author names to add in the message")
 @click.help_option("--help", "-h", help="show the `pygit generate` help page")
 def generate(
     include_body: bool, 
@@ -26,6 +26,11 @@ def generate(
     ref_branch: str, 
     PR_authors: Any
     ):
-    """Generate PR changes along with title and body for merge with repos(for small issues)"""
+    """Generate PR changes along with title and body for merge with repos(for small issues)
+    
+    The idea is to to take a complete branch and generate a title and a message for all the changes happened in the PR. This can also include fetching the issue details on github using octokit API and using it to craft a perfect PR on the upstream branch.
+    """
+
+
 
     return NotImplementedError

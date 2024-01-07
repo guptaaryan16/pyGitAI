@@ -140,4 +140,3 @@ def commit(
         raise CommandFailure(
             "pygit-commit run failed. Report the issue to the developer :-("
         )
-

@@ -3,7 +3,7 @@ from .models_dict import openai_models_dict
 from configparser import ConfigParser
 
 
-def openAI_GPT_setup(setup_config: ConfigParser):
+def openai_gpt_setup(setup_config: ConfigParser):
     """Main function for setup of OpenAI-GPT model calls"""
 
     click.echo(

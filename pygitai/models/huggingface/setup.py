@@ -1,9 +1,9 @@
 import click
-from .models_dict import HF_models_dict
+from .models_dict import hf_models_dict
 from configparser import ConfigParser
 
 
-def HF_inference_setup(setup_config: ConfigParser):
+def hf_inference_setup(setup_config: ConfigParser):
     """Main function for setup of HF model inference API calls"""
 
     click.echo(
@@ -11,15 +11,18 @@ def HF_inference_setup(setup_config: ConfigParser):
     )
 
     AUTH_TOKEN = input("AUTH TOKEN:")
-    HF_models_availabe = list(HF_models_dict.keys())
+    hf_models_availabe = list(hf_models_dict.keys())
 
     click.echo("Choose the model for inference: ")
-    for i, model in enumerate(HF_models_availabe):
-        click.echo(f"{i+1}. {model}")
+    for i, model in enumerate(hf_models_availabe):
+        if hf_models_dict[model]["access_required"]:
+            click.echo(f"{i+1}. {model} : ( Model access is required and should be availabe to access by HF Id used here)")
+        else:
+            click.echo(f"{i+1}. {model}")
     model_id = int(input()) - 1
 
-    model = HF_models_availabe[model_id]
-    
+    model = hf_models_availabe[model_id]
+
     click.echo("Should we keep this as a default option? (y/n) (y): ")
     option = input()
 

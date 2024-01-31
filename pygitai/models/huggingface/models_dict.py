@@ -1,4 +1,4 @@
-HF_models_dict = {
+hf_models_dict = {
     "Mixtral-8x7B-Instruct-v0.1": {
         "API_KEY_LINK": "https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1",
         "TOKENIZER_NAME": "mistralai/Mixtral-8x7B-Instruct-v0.1",

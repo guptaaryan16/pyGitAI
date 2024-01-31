@@ -5,21 +5,13 @@ from configparser import ConfigParser
 from pygitai.cli.utils import (
     save_setup_config,
     _config_exist_and_valid,
-    load_setup_config,
+    _load_setup_config,
 )
-from pygitai.models import openAI_GPT_setup, HF_inference_setup
+from pygitai.models import openai_gpt_setup, hf_inference_setup
 import subprocess
-
+from pathlib import Path
 
 types_of_infra_available = ["local-model", "OpenAI-API", "HuggingFace-Inference-API"]
-
-
-def Google_API(setup_config: ConfigParser) -> Exception:
-    """Main function for setup of Google API calls"""
-    click.echo(
-        "Not supported as of now. Please consider contributing to the project to use this feature."
-    )
-    return NotImplementedError
 
 
 @click.command()
@@ -38,8 +30,8 @@ def setup_environment_config(cache_dir: Path):
     for i, c in enumerate(types_of_infra_available):
         click.echo(f"{i+1} {types_of_infra_available[i]}")
     choice = int(input()) - 1
-    if _config_exist_and_valid:
-        setup_config = load_setup_config()
+    if _config_exist_and_valid():
+        setup_config = _load_setup_config()
     else:
         setup_config = ConfigParser()
 
@@ -48,7 +40,7 @@ def setup_environment_config(cache_dir: Path):
         case 0:
             local_model_setup(setup_config)
         case 1:
-            openAI_GPT_setup(setup_config)
+            openai_gpt_setup(setup_config)
         case 2:
             HF_inference_setup(setup_config)
         case _:
@@ -83,8 +75,18 @@ def setup_environment_config(cache_dir: Path):
     if option == "n":
         author = input("Enter the current author: ")
         email = input("Enter email: ")
+    
+    # Setup the project path
+    project_path = "./"
 
-    setup_config["git"] = {"author": author, "email": email, "ref-branch": ref_branch}
+    option = input("Is the current path the root of the project? (./) (y/n)")
+
+    if option =="n":
+        project_path = imput("Enter project path: ")
+
+    setup_config["git"] = {
+        "author": author, "email": email, "ref-branch": ref_branch, "path": project_path
+    }
 
     # Create config file for the project
-    save_setup_config(cache_dir, setup_config=setup_config)
+    save_setup_config(setup_config)

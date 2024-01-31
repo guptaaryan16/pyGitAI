@@ -20,7 +20,7 @@ def _config_exist_and_valid() -> bool:
 
 def _create_cache_directory() -> None:
     """Create cache directory in the project for PyGitAI
-    
+
     This is done using the standard defined in https://bford.info/cachedir/ ."""
     if _config_dir_exists():
         return
@@ -33,7 +33,7 @@ def _create_cache_directory() -> None:
         f.write(cache_str)
 
 
-def save_setup_config(cache_dir: Path, setup_config: ConfigParser) -> None:
+def save_setup_config(setup_config: ConfigParser) -> None:
     """Function to create cache and save config files for pygit"""
 
     # Create a cache directory
@@ -44,7 +44,7 @@ def save_setup_config(cache_dir: Path, setup_config: ConfigParser) -> None:
         setup_config.write(configfile)
 
 
-def load_setup_config() -> ConfigParser:
+def _load_setup_config() -> ConfigParser:
     """Load the setup config or ask for setup if nothing is available in ./pygit_cache"""
     if not _config_exist_and_valid():
         raise NotValidConfig("Setup pyGitAI first with `pygit setup`")
@@ -53,6 +53,24 @@ def load_setup_config() -> ConfigParser:
     config.read("./.pygit_cache/config.ini")
 
     return config
+
+
+def check_and_setup_command_env_ctx()-> Context:
+    """Setup and return basic environment Context variable to be used by commands."""
+    try:
+        repo = Repo("./")
+    except git.exc.InvalidGitRepositoryError:
+        raise NotAGitRepositoryError(
+            "Please run `git init` or use a valid git repository"
+        )
+
+    # Load the setup_env config
+    config = _load_setup_config()
+
+    # Setting up context
+    ctx = Context(config, repo)
+
+    return ctx
 
 
 def clean_subprocess_output(output: str) -> str:

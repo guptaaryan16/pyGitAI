@@ -4,7 +4,6 @@ import subprocess
 
 
 @click.command("log")
-#@click.option("log_args",nargs=-1)
 @click.argument("log_args", nargs=-1)
 @click.help_option("-h", "help")
 def log(log_args: Any):
@@ -17,9 +16,9 @@ def log(log_args: Any):
         if len(log_arg) == 1:
             command.append(["-" + log_arg])
         else:
-            command.append([
-                "--" + log_arg
-            ])  # Can still show bugs for single arguments, lets see what I do
+            command.append(
+                ["--" + log_arg]
+            )  # Can still show bugs for single arguments, lets see what I do
 
     # Run the ls command
     result = subprocess.run(command, capture_output=True, text=True)

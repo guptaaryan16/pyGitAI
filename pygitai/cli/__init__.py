@@ -1,10 +1,12 @@
 import pygitai
 import click
+from pygitai.cli.commands import (
+    commit,
+    generate,
+    log,
+    comment
+)
 from pygitai.cli.setup import setup_environment_config
-from pygitai.cli.commit import commit
-from pygitai.cli.generate import generate
-from pygitai.cli.log import log
-from pygitai.cli.note import note
 
 
 @click.group()
@@ -18,8 +20,15 @@ def main():
 # The commands for pygit CLI interface
 main.add_command(setup_environment_config, "setup")
 main.add_command(commit, "commit")
+main.add_command(comment, "comment")
 main.add_command(generate, "generate")
 main.add_command(log, "log")
-main.add_command(note, "note")
 
-__all__ = ["main"]
+__all__ = [
+    "main",
+    "setup_environment_config",
+    "commit",
+    "comment",
+    "generate",
+    "log",
+]

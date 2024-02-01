@@ -21,7 +21,7 @@ __all__ = [
     "google_inference_setup",
     "openai_gpt_setup",
     "generate_commit_message",
-    "generate_pr_prompt",
+    "generate_pr_message",
     "generate_code_comment",
 ]
 
@@ -50,10 +50,10 @@ def generate_commit_message(ctx: Context, prompt: str) -> Any:
     return commit_message, commit_body
 
 
-def generate_pr_prompt(ctx: Context, prompt: str):
+def generate_pr_message(ctx: Context, prompt: str):
     """Select the correct API interface and request PR Title and Body."""
 
-    pr_title, pr_body = _choose_backend_inference_function(ctx, prompt, "comment-pr")
+    pr_title, pr_body = _choose_backend_inference_function(ctx, prompt, "generate-pr")
     return pr_title, pr_body
 
 
@@ -61,5 +61,5 @@ def generate_code_comment(ctx: Context, prompt: str) -> str:
     """Select the LLM and pass the git prompt to the model."""
 
     function_diff = _choose_backend_inference_function(ctx, prompt, "")
-    
+
     return function_diff

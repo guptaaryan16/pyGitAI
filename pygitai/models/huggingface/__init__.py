@@ -19,7 +19,7 @@ def hf_inference_function(
     match command_type:
         case "commit":
             return hf_fetch_and_clean_response_commit(ctx, prompt)
-        case "generate_pr":
+        case "generate-pr":
             return hf_generate_pr_comment(ctx, prompt)
         case "comment":
             return hf_generate_code_comment(ctx, prompt)
@@ -73,7 +73,6 @@ def hf_generate_code_comment(ctx: Context, prompt: str) -> str:
     response = fetch_message_from_hf_inference_api(ctx, prompt)
 
     # Clean the HF generated diff patch as per the problems in the API generation
-    # TODO: Check for different models and may make a specific ruleset for each type of model
 
     # Specific formatting issues to be removed, so that the function is ready for diff preview.
     diff_patch = "".join(response.split("```"))

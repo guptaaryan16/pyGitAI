@@ -3,6 +3,7 @@ from subprocess import check_output
 from pygitai.context import Context
 from typing import Any
 from pygitai.exceptions import CommandFailure
+import os
 
 
 def _exclude_from_diff(file):
@@ -17,7 +18,7 @@ def get_staged_diff(ctx: Context, exclude_files=None) -> str:
         "diff",
         "--cached",
         "--diff-algorithm=minimal",
-        f"{ctx.last_commit}"
+        f"{ctx.last_commit}",
     ]
 
     files_to_exclude = []
@@ -34,16 +35,19 @@ def get_staged_diff(ctx: Context, exclude_files=None) -> str:
         files_output = files_process.stdout.strip()
 
         if not files_output:
-            return None
+            # If no file is changed, then it should have a similar behaviour as git
+            return subprocess.run(
+                ["git", "status"], check=True, text=True, stdout=subprocess.PIPE
+            ).stdout.strip()
 
         diff_process = subprocess.run(
             diff_command, check=True, text=True, stdout=subprocess.PIPE
         )
         diff_output = diff_process.stdout
 
-        return {"files": files_output.split("\n"), "diff": diff_output}
+        return diff_output
 
-    except subprocess.CalledProcessError as e:
+    except subprocess.CalledProcessError:
         raise CommandFailure(
             "The pygit commit failed to get output for git-staged diff. Try again or raise an issue."
         )
@@ -73,5 +77,43 @@ def get_branch_diff(ctx: Context, exclude_files=None):
         return diff_output
 
     except subprocess.CalledProcessError as e:
-        print(f"Error executing git command: {e}")
-        return None
+        raise subprocess.CalledProcessError(f"Error executing git command: {e}")
+
+
+def get_git_revert_diff_content(
+    source_code: str, function_code: str, diff_patch: str, file_path: str
+):
+    """Git diff generated to allow reverts and thus better code generation from LLMs and a safety check."""
+    # Clean the diff patch for output
+    # Git diff patch generation
+    function_code = "\n".join(function_code.split("\n"))[:-1]
+
+    patch_store_path = f"{file_path}.patch"
+    changed_content = source_code.replace(function_code, diff_patch)
+
+    # Now we create a patch file and use that to create a subproces change within git and use that patch
+    try:
+        with open(patch_store_path, "w") as patch_file:
+            patch_file.write(changed_content)
+
+        git_diff_command = f"git diff --no-index {patch_store_path} {file_path}"
+
+        diff_output = subprocess.run(
+            git_diff_command,
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+        )
+
+        with open(file_path, "w") as original_file:
+            original_file.write(changed_content)
+
+        os.remove(patch_store_path)
+        
+        return diff_output.stdout
+
+    except ValueError:
+        raise ValueError(
+            "Failed to produce correct patch response for the Function Docstring. Try Again."
+        )

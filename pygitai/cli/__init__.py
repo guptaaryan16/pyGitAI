@@ -21,7 +21,7 @@ def main():
 main.add_command(setup_environment_config, "setup")
 main.add_command(commit, "commit")
 main.add_command(comment, "comment")
-main.add_command(generate, "generate")
+main.add_command(generate, "generate-pr")
 main.add_command(log, "log")
 
 __all__ = [
@@ -30,5 +30,5 @@ __all__ = [
     "commit",
     "comment",
     "generate",
-    "log",
+    "log"
 ]

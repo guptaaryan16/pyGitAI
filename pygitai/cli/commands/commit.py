@@ -1,3 +1,4 @@
+import os
 import click
 import subprocess
 from pathlib import Path
@@ -8,7 +9,7 @@ from pygitai.exceptions import (
     CommandFailure,
 )
 from pygitai.cli.utils import check_and_setup_command_env_ctx, clean_subprocess_output
-from pygitai.git import get_staged_diff
+from pygitai.git import get_staged_diff, delete_git_saved_patches
 from pygitai.models import generate_commit_message
 from pygitai.context import Context
 
@@ -70,6 +71,9 @@ def generate_commit_prompt(
     )
 
     return "\n".join(filter(None, prompt_message))
+
+
+PYGIT_COMMIT_UNSAFE_BEHAVIOUR = os.getenv("PYGIT_COMMIT_UNSAFE_BEHAVIOUR")
 
 
 @click.command("commit")
@@ -197,6 +201,9 @@ def commit(
                 ctx.git_stack, check=True, text=True, stdout=subprocess.PIPE
             ).stdout
         )
+
+        if not PYGIT_COMMIT_UNSAFE_BEHAVIOUR:
+            delete_git_saved_patches(ctx)
 
     except subprocess.CalledProcessError:
         raise CommandFailure(

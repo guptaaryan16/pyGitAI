@@ -12,7 +12,7 @@ from pygitai.exceptions import (
 from pygitai.cli.utils import check_and_setup_command_env_ctx, clean_subprocess_output
 from pygitai.git import get_branch_diff
 from pygitai.context import Context
-from pygitai.models import generate_PR_message
+from pygitai.models import generate_pr_message
 
 
 pr_title_formats: [str, str] = {
@@ -49,7 +49,6 @@ def generate_pr_prompt(
     locale: str = "en-US",
     include_body: bool = False,
     max_length: int = 200,
-    pr_type: str = "",
     issue_number: int = None,
     pr_type: str = "conventional",
 ) -> str:
@@ -79,7 +78,7 @@ def generate_pr_prompt(
     return "\n".join(filter(None, prompt_message))
 
 
-@click.command("generate")
+@click.command("generate-pr")
 @click.option(
     "--include-body",
     is_flag=True,
@@ -148,7 +147,7 @@ def generate(
         try:
             # Call the subprocess to generate the git commit message
             prompt = generate_pr_prompt(ctx, pr_type=pr_type, issue_number=i_n)
-            pr_title, pr_body = generate_PR_message(ctx, prompt)
+            pr_title, pr_body = generate_pr_message(ctx, prompt)
             if include_body:
                 message = pr_title + "\n\n" + pr_body
             else:
@@ -158,8 +157,7 @@ def generate(
                 "pygit-generate failed to generate message for the pull request"
             )
 
-    click.echo("The generated message is \n")
+    click.echo("The generated message is \n\n")
     click.echo(message)
 
     # TODO: Find some way to create a draft PR from github or gitlab using respective CLI and enable/disable this feature accordingly
-

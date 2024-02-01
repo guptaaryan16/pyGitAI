@@ -7,11 +7,15 @@ from pygitai.cli.utils import (
     _config_exist_and_valid,
     _load_setup_config,
 )
-from pygitai.models import openai_gpt_setup, hf_inference_setup
+from pygitai.models import google_inference_setup, openai_gpt_setup, hf_inference_setup
 import subprocess
 from pathlib import Path
 
-types_of_infra_available = ["local-model", "OpenAI-API", "HuggingFace-Inference-API"]
+types_of_infra_available = [
+    "Google-Vertex-API",
+    "OpenAI-API",
+    "HuggingFace-Inference-API",
+]
 
 
 @click.command()
@@ -19,7 +23,7 @@ types_of_infra_available = ["local-model", "OpenAI-API", "HuggingFace-Inference-
     "--cache-dir",
     type=Path,
     default="./",
-    help="path of pygit_cache for config storage",
+    help="path of pygit_cache for config storage"
 )
 @click.help_option("-h", "--help", help="the help message for pygit setup")
 def setup_environment_config(cache_dir: Path):
@@ -38,11 +42,11 @@ def setup_environment_config(cache_dir: Path):
     # Now ask the ENV variables for the model and the extension
     match choice:
         case 0:
-            local_model_setup(setup_config)
+            google_inference_setup(setup_config)
         case 1:
             openai_gpt_setup(setup_config)
         case 2:
-            HF_inference_setup(setup_config)
+            hf_inference_setup(setup_config)
         case _:
             click.echo(
                 "Please select one of the options or contribute to the project for more choices to be available :-)"
@@ -75,17 +79,20 @@ def setup_environment_config(cache_dir: Path):
     if option == "n":
         author = input("Enter the current author: ")
         email = input("Enter email: ")
-    
+
     # Setup the project path
     project_path = "./"
 
     option = input("Is the current path the root of the project? (./) (y/n)")
 
-    if option =="n":
+    if option == "n":
         project_path = imput("Enter project path: ")
 
     setup_config["git"] = {
-        "author": author, "email": email, "ref-branch": ref_branch, "path": project_path
+        "author": author,
+        "email": email,
+        "ref-branch": ref_branch,
+        "path": project_path,
     }
 
     # Create config file for the project

@@ -1,11 +1,6 @@
 from git import InvalidGitRepositoryError
 
 
-class Exception(BaseException):
-    """Base exception for all errors in pyGitAI"""
-
-    pass
-
 
 class NotValidConfig(Exception):
     """Not a Valid config. If config file is present, delete it and then setup config with `pygit setup`."""
@@ -32,7 +27,7 @@ class CommandFailure(Exception):
 
 
 __all__ = [  # noqa: F822
-    "NotAValidGitRepo",
+    "NotAGitRepositoryError",
     "NoGPTResponseError",
     "CommandFailure",
     "NotValidConfig",

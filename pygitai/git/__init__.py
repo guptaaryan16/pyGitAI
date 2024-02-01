@@ -1,13 +1,12 @@
 from .utils import (
     get_staged_diff,
     get_branch_diff,
-    get_git_diff_content,
-    save_git_patch_in_cache,
+    get_git_revert_diff_content,
 )
-
-__all__ = [
-    "get_staged_diff",
-    "get_branch_diff",
-    "get_git_diff_content",
-    "save_git_patch_in_cache",
-]
+from .cache_info import (
+    load_diff_info,
+    save_diff_info_file,
+    save_git_patch_in_cache,
+    apply_git_revert_patch,
+    delete_git_saved_patches,
+)

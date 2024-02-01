@@ -7,7 +7,7 @@ import subprocess
 @click.argument("log_args", nargs=-1)
 @click.help_option("-h", "help")
 def log(log_args: Any):
-    """Git log extended to pygit. May use it for something better in future ;-)"""
+    """Git log extended to pygit."""
 
     command = ["git", "log"]
 

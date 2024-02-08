@@ -38,11 +38,3 @@ pygitai.hooks module
    :undoc-members:
    :show-inheritance:
 
-
-Module contents
----------------
-
-.. automodule:: pygitai
-   :members:
-   :undoc-members:
-   :show-inheritance:

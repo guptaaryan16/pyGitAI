@@ -1,25 +1,24 @@
-Quick-Start
+Quick-Setup
 ============
 
-Welcome to the installation guide for [Your Project Name].
+Welcome to the setup guide for PyGitAI CLI app.
+You can setup `PyGitAI` with the following steps:
 
-Prerequisites
--------------
+1. **Obtain LLM model API keys**
+      .. tab::
+            
 
-Before you begin the installation, make sure you have the following prerequisites installed:
-
-- Python (version x.x.x)
-- Pip (Python package installer)
-
-Install [Your Project Name]
----------------------------
-
-You can install [Your Project Name] using the following steps:
-
-1. **Create a Virtual Environment (Optional):**
+2. **Run pygit setup command**
 
    It's recommended to create a virtual environment to isolate the project dependencies. Run the following commands in your terminal:
 
-   ```bash
-   python -m venv myenv  # Replace "myenv" with your preferred virtual environment name
-   source myenv/bin/activate  # Activate the virtual environment (use "activate" on Windows)
+   .. code:: bash
+         
+         >> cd your-project-directory
+         >> pygit setup
+         
+   Now follow the step-by-step instruction process, this allows you to setup up the pygit config files that will be helpful using the commands.
+
+   Now you are ready to use the pygit commands. Yay!
+
+3. **Extra step (Read About commands and Using them correctly)**

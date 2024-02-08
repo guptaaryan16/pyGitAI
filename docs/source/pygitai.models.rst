@@ -20,13 +20,6 @@ pygitai.models.huggingface module
    :undoc-members:
    :show-inheritance:
 
-pygitai.models.prompt module
-----------------------------
-
-.. automodule:: pygitai.models.prompt
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Module contents
 ---------------

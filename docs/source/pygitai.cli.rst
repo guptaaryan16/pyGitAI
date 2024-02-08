@@ -3,6 +3,10 @@ pygitai.cli package
 
 Submodules
 ----------
+.. automodule:: pygitai.cli
+   :members:
+   :undoc-members:
+
 
 pygitai.cli.utils module
 ------------------------

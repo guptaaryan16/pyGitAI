@@ -30,14 +30,13 @@ def _choose_backend_inference_function(
     ctx: Context, prompt: str, command_type: str
 ) -> Any:
     # The idea is to select the model from the ctx and use the prompt to access
-    match ctx.model_source:
-        case "openAI":
-            return openai_inference_function(ctx, prompt, command_type)
+    if ctx.model_source == "openAI":
+        return openai_inference_function(ctx, prompt, command_type)
 
-        case "HF":
-            return hf_inference_function(ctx, prompt, command_type)
+    elif ctx.model_source ==  "HF":
+        return hf_inference_function(ctx, prompt, command_type)
 
-        case "Google-API":
+    elif ctx.model_source == "GOOGLE":
             return google_inference_function(ctx, prompt, command_type)
 
 
@@ -53,8 +52,8 @@ def generate_commit_message(ctx: Context, prompt: str) -> Any:
 def generate_pr_message(ctx: Context, prompt: str):
     """Select the correct API interface and request PR Title and Body."""
 
-    pr_title, pr_body = _choose_backend_inference_function(ctx, prompt, "generate-pr")
-    return pr_title, pr_body
+    response = _choose_backend_inference_function(ctx, prompt, "generate-pr")
+    return response
 
 
 def generate_code_comment(ctx: Context, prompt: str) -> str:

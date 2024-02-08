@@ -1,6 +1,6 @@
 """The pygit_cache file management functions for reverting and storing commands.
 
-This is a safety feature provided by pygitai commands to revert any changes done by the commands during the LLM code generation as the developers take the case where this can be dangerous for the systems.
+This is a safety feature provided by pygitai commands to revert any changes done by the commands during the LLM code generation as the  developers take the case where this can be dangerous for the systems.
 """
 import os
 import json
@@ -10,7 +10,6 @@ import subprocess
 import click
 import shutil
 from typing import Any
-
 
 
 def load_diff_info(repo_path: Path) -> Any:
@@ -141,10 +140,15 @@ def apply_git_revert_patch(ctx: Context, file_path: str) -> None:
             git_diff_file_path = comment_revert_info[ctx.git_branch][
                 use_diff_patch_path.as_posix()
             ].pop()
-
             try:
                 diff_process = subprocess.run(
-                    ["git", "apply", git_diff_file_path, "--allow-empty"]
+                    [
+                        "git",
+                        "apply",
+                        git_diff_file_path,
+                        "--allow-empty",
+                        f"--build-fake-ancestor={git_diff_file_path}.patch",
+                    ]
                 )
 
                 if diff_process.returncode == 0:
@@ -176,7 +180,6 @@ def delete_git_saved_patches(ctx: Context) -> None:
 
     # Removing the files related to the current branch and the keys in the comment_diff_cache.json file
     if diff_info_path.exists() and curr_branch in comment_revert_info:
-        
         del comment_revert_info[curr_branch]
         shutil.rmtree(diff_info_path.parent / curr_branch)
 

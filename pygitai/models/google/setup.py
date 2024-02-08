@@ -14,12 +14,7 @@ def google_inference_setup(setup_config: ConfigParser):
 
     click.echo("Choose the model for inference: ")
     for i, model in enumerate(google_models_dict):
-        if google_models_dict[model]["access_required"]:
-            click.echo(
-                f"{i+1}. {model} : ( Model access is required and should be availabe to access by HF Id used here)"
-            )
-        else:
-            click.echo(f"{i+1}. {model}")
+        click.echo(f"{i+1}. {model}")
     model_id = int(input()) - 1
 
     model = google_models_dict[model_id]

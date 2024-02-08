@@ -16,15 +16,15 @@ def google_inference_function(
 
     The inference function chooses the necessary abstraction for the use of the model over the current Google Vertex inference API endpoints. This allows you to remove necessary content and make sure the output matches the format as desired by the user.
     """
-    match command_type:
-        case "commit":
-            return google_fetch_and_clean_response_commit(ctx, prompt)
-        case "generate-pr":
-            return google_generate_pr_comment(ctx, prompt)
-        case "comment":
-            return google_generate_code_comment(ctx, prompt)
-        case _:
-            return fetch_message_google_client(ctx, prompt)
+    command_functions =  {
+        "commit": google_fetch_and_clean_response_commit,
+        "generate-pr": google_generate_pr_comment,
+        "comment": google_generate_code_comment
+    }
+    if command_type in command_functions.keys():
+        return command_functions[command_type](ctx, prompt)
+
+    return fetch_message_google_client(ctx, prompt)
 
 
 def google_fetch_and_clean_response_commit(ctx: Context, prompt: str) -> Any:
@@ -43,7 +43,6 @@ def google_fetch_and_clean_response_commit(ctx: Context, prompt: str) -> Any:
 
     if ctx.include_body:
         generated_content = generated_content[1:]
-        print(generated_content)
         commit_body = " ".join(generated_content)
     return commit_title, commit_body
 

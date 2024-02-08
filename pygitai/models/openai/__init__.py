@@ -14,15 +14,17 @@ def openai_inference_function(
 
     The inference function chooses the necessary abstraction for the use of the model over the current OpenAI inference API endpoints. This allows you to remove necessary content and make sure the output matches the format as desired by the user.
     """
-    match command_type:
-        case "commit":
-            return openai_fetch_and_clean_response_commit(ctx, prompt)
-        case "generate-pr":
-            return openai_generate_pr_comment(ctx, prompt)
-        case "comment":
-            return openai_generate_code_comment(ctx, prompt)
-        case _:
-            return fetch_message_from_openai_inference_API(ctx, prompt)
+
+    command_functions = {
+        "commit": openai_fetch_and_clean_response_commit,
+        "generate-pr": openai_generate_pr_comment,
+        "comment": openai_generate_code_comment
+    }
+    
+    if command_type in command_functions.keys():
+        return command_functions[command_type](ctx, prompt)
+
+    return fetch_message_from_openai_inference_API(ctx, prompt)
 
 
 def openai_fetch_and_clean_response_commit(ctx: Context, prompt: str) -> Any:

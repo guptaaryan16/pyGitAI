@@ -9,6 +9,7 @@ from typing import Any
 __all__ = ["hf_models_dict", "hf_inference_setup", "hf_inference_function"]
 
 
+
 def hf_inference_function(
     ctx: Context, prompt: str, command_type: str = "commit"
 ) -> Any:
@@ -16,15 +17,17 @@ def hf_inference_function(
 
     The inference function chooses the necessary abstraction for the use of the model over the current HF inference API endpoints. This allows you to remove necessary content and make sure the output matches the format as desired by the user.
     """
-    match command_type:
-        case "commit":
-            return hf_fetch_and_clean_response_commit(ctx, prompt)
-        case "generate-pr":
-            return hf_generate_pr_comment(ctx, prompt)
-        case "comment":
-            return hf_generate_code_comment(ctx, prompt)
-        case _:
-            return fetch_message_from_hf_inference_api(ctx, prompt)
+
+    command_functions =  {
+        "commit": hf_fetch_and_clean_response_commit,
+        "generate-pr": hf_generate_pr_comment,
+        "comment": hf_generate_code_comment
+    }
+    
+    if command_type in command_functions.keys():
+        return command_functions[command_type](ctx, prompt)
+
+    return fetch_message_from_hf_inference_api(ctx, prompt)
 
 
 def hf_fetch_and_clean_response_commit(ctx: Context, prompt: str) -> Any:
@@ -48,7 +51,6 @@ def hf_fetch_and_clean_response_commit(ctx: Context, prompt: str) -> Any:
 
     if ctx.include_body:
         generated_content = generated_content[1:]
-        print(generated_content)
         commit_body = " ".join(generated_content)
     return commit_title, commit_body
 

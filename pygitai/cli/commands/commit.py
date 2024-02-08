@@ -6,7 +6,7 @@ from pathlib import Path
 from pygitai.exceptions import (
     NoGPTResponseError,
     NotAGitRepositoryError,
-    CommandFailure,
+    CommandFailure
 )
 from pygitai.cli.utils import check_and_setup_command_env_ctx, clean_subprocess_output
 from pygitai.git import get_staged_diff, delete_git_saved_patches
@@ -15,12 +15,12 @@ from pygitai.context import Context
 
 
 commit_type_formats: [str, str] = {
-    "": "```<commit message>```",
+    "normal": "```<commit message>```",
     "conventional": "```<type>(<optional scope>): <commit message>```",
 }
 
 commit_types: [str, str] = {
-    "": "",
+    "normal": "",
     "conventional": """
     Choose a type from the type-to-description dictionary below that best describes the git diff:
         {

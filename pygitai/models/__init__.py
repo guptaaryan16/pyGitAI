@@ -59,6 +59,6 @@ def generate_pr_message(ctx: Context, prompt: str):
 def generate_code_comment(ctx: Context, prompt: str) -> str:
     """Select the LLM and pass the git prompt to the model."""
 
-    function_diff = _choose_backend_inference_function(ctx, prompt, "")
+    function_diff = _choose_backend_inference_function(ctx, prompt, "comment")
 
     return function_diff

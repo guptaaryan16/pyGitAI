@@ -17,7 +17,7 @@ from pygitai.git import (
 from pygitai.exceptions import (
     NoGPTResponseError,
     NotAGitRepositoryError,
-    CommandFailure,
+    CommandFailure
 )
 
 
@@ -91,7 +91,7 @@ def generate_comment_prompt(source_code: str, docstring_format="Numpy") -> str:
 )
 @click.option(
     "--revert",
-    type=bool, 
+    type=bool,
     default=False,
     help="Revert the function docstrings generated earlier due to some errors.",
 )
@@ -126,7 +126,6 @@ def comment(
                 raise NoGPTResponseError(
                     "pygit-comment failed to generate Doc-Strings."
                 )
-
             # Apply comments to the original code
             git_diff_patch = get_git_revert_diff_content(
                 source_code, function_code, diff_patch, path

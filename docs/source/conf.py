@@ -60,6 +60,12 @@ html_static_path = ["_static"]
 html_theme_options = {
     "light_logo": "pygitai-logo-light.png",
     "dark_logo": "pygitai-logo-dark.png",
+    "announcement": """<em>Important</em> announcement!
+    We are really excited to announce the alpha(pre-release) version of the CLI app. 
+    """,
+    "source_repository": "https://github.com/guptaaryan16/pygitai/",
+    "source_branch": "main",
+    "source_directory": "docs/",
 }
 
 
@@ -72,13 +78,6 @@ extensions.append("sphinx.ext.graphviz")
 
 
 autosummary_generate = True
-
-
-# html_theme_options = {
-#     "source_repository": "https://github.com/guptaaryan16/pygitai/",
-#     "source_branch": "main",
-#     "source_directory": "docs/",
-# }
 
 
 # -- Extension configuration -------------------------------------------------

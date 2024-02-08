@@ -56,9 +56,8 @@ def google_generate_pr_comment(ctx: Context, prompt: str) -> Any:
 def google_generate_code_comment(ctx: Context, prompt: str) -> str:
     """Fetch the code commented diff using a Google Vertex AI model"""
     response = fetch_message_google_client(ctx, prompt)
-
     # Specific formatting issues to be removed, so that the function is ready for diff preview.
-    diff_patch = "".join(response.split("```"))
-    diff_patch = "\n".join(diff_patch.split("\n"))[2:]
+    diff_patch = "".join(response.split("```")) 
+    diff_patch = "\n".join(diff_patch.split("\n")[1:])
 
     return diff_patch

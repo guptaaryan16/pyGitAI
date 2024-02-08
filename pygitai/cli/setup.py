@@ -40,17 +40,16 @@ def setup_environment_config(cache_dir: Path):
         setup_config = ConfigParser()
 
     # Now ask the ENV variables for the model and the extension
-    match choice:
-        case 0:
-            google_inference_setup(setup_config)
-        case 1:
-            openai_gpt_setup(setup_config)
-        case 2:
-            hf_inference_setup(setup_config)
-        case _:
-            click.echo(
-                "Please select one of the options or contribute to the project for more choices to be available :-)"
-            )
+    setup_choice = [
+        google_inference_setup,
+        openai_gpt_setup,
+        hf_inference_setup
+    ]
+    if choice in range(len(setup_choice)):
+        setup_choice[choice](setup_config)
+    else:
+        click.echo("Please select one of the options or contribute to the project for more choices to be available :-)")
+        return 
 
     curr_branch = subprocess.check_output(
         ["git", "branch", "--show-current"], encoding="utf-8"

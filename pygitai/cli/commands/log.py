@@ -22,6 +22,4 @@ def log(log_args: Any):
 
     # Run the ls command
     result = subprocess.run(command, capture_output=True, text=True)
-
-    # Print the output of ls command
     click.echo(result.stdout)

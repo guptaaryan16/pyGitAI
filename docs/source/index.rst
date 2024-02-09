@@ -25,34 +25,34 @@ Also, the long term goal is to integrate this tool with ghstack, Graphite, and o
 Thanks for using this tool. This is my first Python package so please support the project if possible, and forgive me for any poor design choices.
 
 .. note::
-   The project is not ready for commercial and enterprise use yet, but we are tyinh to speed the development and add new features as soon as possible. Please consider supporting or contributing to the project on GitHub.
+   The project is not ready for commercial and enterprise use yet, but we are tying to speed the development and add new features as soon as possible. Please consider supporting or contributing to the project on GitHub.
 
 .. image:: ./_static/pygitai_explained.png
 
 Supported LLM Platforms and Models 
 -----------------------------------
 
-+-------------------------+-----------------------+-----------+--------------------+
-|      LLM Platform       |      Models           | Supported | Commands Supported |
-+=========================+=======================+===========+====================+
-|                         | - LLAMA-7B            |    ✅     |       ✅           |
-|    HuggingFace🤗        |                       +-----------+--------------------+
-|    (Inference API)      | - Mixtral-7B Instruct |    ✅     |       ✅           |
-+-------------------------+-----------------------+-----------+--------------------+
-|                         | - Gemini-Pro          |    ✅     |       ✅           |
-|     Google Gemini       |                       +-----------+--------------------+
-|                         | - Bard API            |Not Tested | Not Tested         |
-|                         |                       +-----------+--------------------+
-|                         | - PaLM                |Not Tested | Not Tested         |
-+-------------------------+-----------------------+-----------+--------------------+
-|                         | - GPT-3.5 Turbo       |Not Tested |    Not Tested      |
-|     OpenAI GPT APIs     |                       +-----------+--------------------+
-|                         | - GPT-4               | Not Tested| Not Tested         |
-+-------------------------+-----------------------+-----------+--------------------+
-|                         | - Transformers        |     -     |        -           |
-|   Local Model support   |                       +-----------+--------------------+
-|                         | - Native PyTorch      |     -     |        -           |
-+-------------------------+-----------------------+-----------+--------------------+
++-------------------------+-----------------------+------------+--------------------+
+|      LLM Platform       |      Models           |  Supported | Commands Supported |
++=========================+=======================+============+====================+
+|                         | - LLAMA-7B            |     ✅     |       ✅           |
+|    HuggingFace🤗        |                       +------------+--------------------+
+|    (Inference API)      | - Mixtral-7B Instruct |     ✅     |       ✅           |
++-------------------------+-----------------------+------------+--------------------+
+|                         | - Gemini-Pro          |     ✅     |       ✅           |
+|     Google Gemini       |                       +------------+--------------------+
+|                         | - Bard API            | Not Tested | Not Tested         |
+|                         |                       +------------+--------------------+
+|                         | - PaLM                | Not Tested | Not Tested         |
++-------------------------+-----------------------+------------+--------------------+
+|                         | - GPT-3.5 Turbo       | Not Tested | Not Tested         |
+|     OpenAI GPT APIs     |                       +------------+--------------------+
+|                         | - GPT-4               | Not Tested | Not Tested         |
++-------------------------+-----------------------+------------+--------------------+
+|                         | - Transformers        |      -     |        -           |
+|   Local Model support   |                       +------------+--------------------+
+|                         | - Native PyTorch      |      -     |        -           |
++-------------------------+-----------------------+------------+--------------------+
 
 
 .. toctree::
@@ -60,10 +60,10 @@ Supported LLM Platforms and Models
    
    installation
    quick-start
-   commands
+   commands/commands
    devnotes
    contributing
-   pygitai
+   api/pygitai
 
 
 

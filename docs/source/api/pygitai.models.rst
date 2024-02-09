@@ -13,12 +13,21 @@ pygitai.models.openai module
    :show-inheritance:
 
 pygitai.models.huggingface module
-----------------------------
+----------------------------------
 
 .. automodule:: pygitai.models.huggingface
    :members:
    :undoc-members:
    :show-inheritance:
+
+pygitai.models.google module
+----------------------------------
+
+.. automodule:: pygitai.models.google
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 
 Module contents

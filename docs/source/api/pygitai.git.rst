@@ -5,7 +5,7 @@ Submodules
 ----------
 
 pygitai.git.cache_info module
-------------------------
+-----------------------------
 
 .. automodule:: pygitai.git.cache_info
    :members:

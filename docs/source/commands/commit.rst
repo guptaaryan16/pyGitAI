@@ -1,5 +1,5 @@
 `pygit commit`
------------------
+--------------
 
 The command allows you to commit your changes like normal `git commit`. The key change is now you can use an option `--generate-message` or `-gm` that allows you to generate commit messages and commit bodies using LLMs, with option from HF inference APIs, Google Vertex APIs and OpenAI GPT APIs::
 
@@ -27,9 +27,15 @@ The command allows you to commit your changes like normal `git commit`. The key 
                                     styles of commit types
     -h, --help                      show the `pygit commit` help page
 
-Usage:
+
+**Usage:**
+
 The command is used as follows:
+
 .. code:: bash
 
-    >> pygit commit --generate-message/-gm # After staging your changes for commit
+    >> pygit commit -gm/--generate-message # After staging your changes for commit
 
+
+.. note::
+    You can use editor flag for editing the message before it is commited. Also save the message with `:wq` if opened in Vim (default).

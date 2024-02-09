@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath("../../"))
 # -- Project information -----------------------------------------------------
 
 project = "pyGitAI"
-copyright = "2023, Aryan Gupta"
+copyright = "2024, Aryan Gupta"
 author = "Aryan Gupta"
 
 # The full version, including alpha/beta/rc tags
@@ -34,6 +34,8 @@ release = "v0.1.0"
 extensions = [
     "sphinx.ext.githubpages",
     "sphinx.ext.autodoc",
+    "sphinx_inline_tabs",
+    "sphinx.ext.intersphinx",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

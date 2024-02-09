@@ -37,4 +37,3 @@ pygitai.hooks module
    :members:
    :undoc-members:
    :show-inheritance:
-

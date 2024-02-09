@@ -1,7 +1,7 @@
 Installation
 ============
 
-Welcome to the installation guide for :ref:`pygitai`.
+Welcome to the installation guide for `pygitai`.
 
 Prerequisites
 -------------

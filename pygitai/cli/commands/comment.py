@@ -80,14 +80,14 @@ def generate_comment_prompt(source_code: str, docstring_format="Numpy") -> str:
     "--path",
     default=None,
     type=str,
-    help="Specify the module containing the function",
+    help="Specify the path of the function with respect to root directory",
 )
 @click.option(
-    "--function-name", type=str, help="Specify the module containing the function"
+    "--function-name", type=str, help="Specify the function you want to create docstrings for"
 )
 @click.option(
     "--docstring-format",
-    type=str,
+    type=click.Choice(["Numpy", "Google"]),
 )
 @click.option(
     "--revert",
@@ -95,7 +95,7 @@ def generate_comment_prompt(source_code: str, docstring_format="Numpy") -> str:
     default=False,
     help="Revert the function docstrings generated earlier due to some errors.",
 )
-@click.help_option("-h", "help")
+@click.help_option("-h", "help", help="Generate documentation for the command.")
 def comment(
     module: str,
     path: str,
@@ -120,7 +120,7 @@ def comment(
         if function_code:
             try:
                 # Call the subprocess to generate the git commit message
-                prompt = generate_comment_prompt(function_code)
+                prompt = generate_comment_prompt(function_code, docstring_format)
                 diff_patch = generate_code_comment(ctx, prompt)
             except ChildProcessError:
                 raise NoGPTResponseError(

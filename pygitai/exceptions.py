@@ -1,7 +1,5 @@
 from git import InvalidGitRepositoryError
 
-
-
 class NotValidConfig(Exception):
     """Not a Valid config. If config file is present, delete it and then setup config with `pygit setup`."""
 

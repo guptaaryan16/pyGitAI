@@ -10,6 +10,7 @@ from pygitai.cli.utils import (
 from pygitai.models import google_inference_setup, openai_gpt_setup, hf_inference_setup
 import subprocess
 from pathlib import Path
+from typing import Any
 
 types_of_infra_available = [
     "Google-Vertex-API",
@@ -17,82 +18,102 @@ types_of_infra_available = [
     "HuggingFace-Inference-API",
 ]
 
+# Now ask the ENV variables for the model and the extension
+setup_choice = [
+    google_inference_setup,
+    openai_gpt_setup,
+    hf_inference_setup
+]
+
 
 @click.command()
 @click.option(
     "--cache-dir",
     type=Path,
-    default="./",
+    default="./pygit_cache",
     help="path of pygit_cache for config storage"
 )
+@click.option(
+    "--full-setup",
+    "-f",
+    type=bool,
+    default=True,
+    help="Run complete setup over the pygit env"
+)
+@click.option(
+    "--mini-setup",
+    default=None,
+    type=click.Choice(["HF", "Google", "OpenAI"]),
+    help="Change the LLM provider settings"
+)
 @click.help_option("-h", "--help", help="the help message for pygit setup")
-def setup_environment_config(cache_dir: Path):
+def setup_environment_config(cache_dir: Path, full_setup: bool, mini_setup: str)->Any:
     """Setup ENV variables for the model / API keys available."""
-    click.echo(
-        f"""\nWelcome to pyGitAI {pygitai.__version__} !\n\nWhich type of model do you want to use here?"""
-    )
-    for i, c in enumerate(types_of_infra_available):
-        click.echo(f"{i+1} {types_of_infra_available[i]}")
-    choice = int(input()) - 1
+    
+    # Initialize the config for pygit enviroment 
     if _config_exist_and_valid():
         setup_config = _load_setup_config()
     else:
         setup_config = ConfigParser()
 
-    # Now ask the ENV variables for the model and the extension
-    setup_choice = [
-        google_inference_setup,
-        openai_gpt_setup,
-        hf_inference_setup
-    ]
-    if choice in range(len(setup_choice)):
-        setup_choice[choice](setup_config)
+    if not full_setup:
+        pass
     else:
-        click.echo("Please select one of the options or contribute to the project for more choices to be available :-)")
-        return 
+        click.echo(
+            f"""\nWelcome to pyGitAI {pygitai.__version__} !\n\nWhich type of model do you want to use here?"""
+        )
+        for i, c in enumerate(types_of_infra_available):
+            click.echo(f"{i+1} {types_of_infra_available[i]}")
+        choice = int(input()) - 1
 
-    curr_branch = subprocess.check_output(
-        ["git", "branch", "--show-current"], encoding="utf-8"
-    )[:-1]
+        if choice in range(len(setup_choice)):
+            setup_choice[choice](setup_config)
+        else:
+            raise NotImplementedError("Please select one of the options or contribute to the project for more choices to be available :-)")
 
-    # The ref branch for the project
-    option = input(
-        f"Is the current branch ({curr_branch}) ref branch for the project? (y or n) "
-    )
+        curr_branch = subprocess.check_output(
+            ["git", "branch", "--show-current"], encoding="utf-8"
+        )[:-1]
 
-    if option == "n":
-        ref_branch = input("Enter the Ref branch for the project: ")
-    else:
-        ref_branch = curr_branch
+        # The ref branch for the project
+        option = input(
+            f"Is the current branch ({curr_branch}) ref branch for the project? (y or n) "
+        )
 
-    # Git Author and Email
-    author = subprocess.check_output(
-        ["git", "config", "--get", "user.name"], encoding="utf-8"
-    )[:-1]
-    email = subprocess.check_output(
-        ["git", "config", "--get", "user.email"], encoding="utf-8"
-    )[:-1]
+        if option == "n":
+            ref_branch = input("Enter the Ref branch for the project: ")
+        else:
+            ref_branch = curr_branch
 
-    option = input(f"Is the current author {author} <{email}>? (y or n) ")
+        # Git Author and Email
+        author = subprocess.check_output(
+            ["git", "config", "--get", "user.name"], encoding="utf-8"
+        )[:-1]
+        email = subprocess.check_output(
+            ["git", "config", "--get", "user.email"], encoding="utf-8"
+        )[:-1]
 
-    if option == "n":
-        author = input("Enter the current author: ")
-        email = input("Enter email: ")
+        option = input(f"Is the current author {author} <{email}>? (y or n) ")
 
-    # Setup the project path
-    project_path = "./"
+        if option == "n":
+            author = input("Enter the current author: ")
+            email = input("Enter email: ")
 
-    option = input("Is the current path the root of the project? (./) (y/n)")
+        # Setup the project path
+        project_path = "./"
 
-    if option == "n":
-        project_path = imput("Enter project path: ")
+        option = input("Is the current path the root of the project? (./) (y/n)")
 
-    setup_config["git"] = {
-        "author": author,
-        "email": email,
-        "ref-branch": ref_branch,
-        "path": project_path,
-    }
+        if option == "n":
+            project_path = imput("Enter project path: ")
 
+        setup_config["git"] = {
+            "author": author,
+            "email": email,
+            "ref-branch": ref_branch,
+            "path": project_path,
+        }
+
+    
     # Create config file for the project
-    save_setup_config(setup_config)
+    save_setup_config(setup_config, cache_dir)

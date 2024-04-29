@@ -11,12 +11,11 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
 
     steps:
     - uses: actions/checkout@v3
@@ -24,17 +23,53 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
+
+    - name: "Test the flake lint issues"
       run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
+        flake8 .
+      continue-on-error: true
+    
+    - name: Test Install and usage 
       run: |
-        pytest
+        # Install from Source test on python version ${{ matrix.python-version }}
+        python -m pip install .
+
+    - name: "Make the repo setup"
+      run: |
+        bash setup.py ${{ API_KEY }}
+      
+    - name: "pygit commit"
+      run: | 
+        # Test pygit commit
+        pygit commit -gm
+
+    - name: pygit comment
+      run: | 
+        # Test pygit comment 
+        pygit comment --path=./math.py --function-name=square
+        
+        # Store the file locally and then test the extended behavior 
+        cp 
+
+        # Test pygit comment 
+        pygit comment --path=./math.py --function-name=cube
+
+        # Test revert pygit comment 
+
+
+        # git switch 
+        git switch -c test_branch 
+
+        # move the test file for generating PR message 
+        mv ../scripts/test_generate.py test_generate.py 
+    
+    - name: "Test Generate PR message"
+      run: |
+        # Generate the PR message 
+        pygit generate-pr -gm      

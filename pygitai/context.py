@@ -15,7 +15,7 @@ class Context:
         * author: Author in git config file.
         * email: Email in git config file.
         * model_source : The model source currently in use (OpenAI or HF)
-        * model_prop(dict): The model properties for currently available    
+        * model_prop(dict): The model properties for currently available
     """
 
     def __init__(self, config: ConfigParser, repo: Repo):
